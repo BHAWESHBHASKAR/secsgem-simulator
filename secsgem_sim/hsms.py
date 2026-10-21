@@ -125,7 +125,15 @@ class NotSelectedError(HsmsError):
 
 
 class ReplyTimeoutError(HsmsError):
-    """T3: no reply to a W-bit data message in time."""
+    """T3: no reply to a W-bit data message in time.
+
+    `message` is the primary that went unanswered (with its system bytes), so
+    the caller can e.g. send S9F9 quoting its header.
+    """
+
+    def __init__(self, text: str, message: Optional[SecsMessage] = None) -> None:
+        super().__init__(text)
+        self.message = message
 
 
 class ControlTimeoutError(HsmsError):
@@ -356,7 +364,7 @@ class HsmsConnection:
     async def _read_loop(self) -> None:
         reason = "peer closed the connection"
         try:
-            while True:
+            while self.state is not ConnectionState.NOT_CONNECTED:
                 # Between messages we may wait forever...
                 length_bytes = await self._reader.readexactly(LENGTH_STRUCT.size)
                 (length,) = LENGTH_STRUCT.unpack(length_bytes)
@@ -376,7 +384,7 @@ class HsmsConnection:
         except HsmsProtocolError as exc:
             reason = f"protocol error: {exc}"
             log.error("[%s] %s", self.name, reason)
-        except (ConnectionError, OSError) as exc:
+        except (ConnectionError, OSError, ConnectionClosedError) as exc:
             reason = f"socket error: {exc}"
         finally:
             await self.close(reason)
@@ -541,7 +549,7 @@ class HsmsConnection:
         except asyncio.TimeoutError:
             log.warning("[%s] T3 timeout (%.1fs) waiting for reply to %s (sys=0x%08X)",
                         self.name, self.timeouts.t3, msg.name, msg.system_bytes)
-            raise ReplyTimeoutError(f"T3 timeout waiting for reply to {msg.name}") from None
+            raise ReplyTimeoutError(f"T3 timeout waiting for reply to {msg.name}", msg) from None
         finally:
             self._pending_replies.pop(msg.system_bytes, None)
 
