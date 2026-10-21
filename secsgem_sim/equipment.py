@@ -455,8 +455,11 @@ class GemEquipment:
 
         for ecid, value_item in changes:
             constant = self.constants[ecid]
-            log.info("EC %s (%d): %s -> %s", constant.name, ecid, constant.value, value_item.value[0])
-            constant.value = float(value_item.value[0])
+            value = float(value_item.value[0])
+            if value_item.format is Format.F4:
+                value = float(f"{value:.7g}")  # drop float32 noise: 0.6000000238 -> 0.6
+            log.info("EC %s (%d): %s -> %s", constant.name, ecid, constant.value, value)
+            constant.value = value
         return SecsMessage(2, 16, body=B(EAC.OK))
 
     def _s2f33_define_report(self, msg: SecsMessage) -> SecsMessage:

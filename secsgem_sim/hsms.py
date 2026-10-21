@@ -43,7 +43,7 @@ from enum import Enum, IntEnum
 from typing import Awaitable, Callable, Dict, List, Optional, Set
 
 from .message import SecsMessage
-from .secs2 import Secs2DecodeError, decode, encode
+from .secs2 import Secs2DecodeError, decode, encode, to_sml
 
 log = logging.getLogger("secsgem_sim.hsms")
 trace_log = logging.getLogger("secsgem_sim.trace")
@@ -256,6 +256,8 @@ class HsmsConnection:
         self._pending_replies: Dict[int, asyncio.Future] = {}
         self._pending_control: Dict[int, asyncio.Future] = {}
         self._next_system_bytes = 1
+
+        self.stats = {"sent": 0, "received": 0}   # HSMS messages, data + control
 
         self._write_lock = asyncio.Lock()
         self._tasks: Set[asyncio.Task] = set()
@@ -617,17 +619,25 @@ class HsmsConnection:
 
     # ----- tracing ----------------------------------------------------------
 
+    def _count(self, direction: str) -> None:
+        self.stats["sent" if direction == "-->" else "received"] += 1
+
     def _trace_data(self, direction: str, msg: SecsMessage) -> None:
-        text = msg.to_sml().replace("\n", "\n    ")
+        self._count(direction)
+        head = msg.name + (" W" if msg.wbit else "")
+        text = f"{head}  (sys=0x{msg.system_bytes:08X})"
+        if msg.body is not None:
+            text += "\n    " + to_sml(msg.body, pretty=True).replace("\n", "\n    ")
         if msg.decode_error:
             text += f"\n    !! body could not be decoded: {msg.decode_error}"
         trace_log.info(
-            "[%s] %s %s  (sys=0x%08X)", self.name, direction, text, msg.system_bytes,
+            "[%s] %s %s", self.name, direction, text,
             extra={"direction": direction, "sxfy": msg.name, "wbit": msg.wbit,
                    "system_bytes": msg.system_bytes, "peer": self.peer},
         )
 
     def _trace_control(self, direction: str, stype: SType, header: HsmsHeader) -> None:
+        self._count(direction)
         detail = ""
         if stype in (SType.SELECT_RSP, SType.DESELECT_RSP):
             detail = f" status={header.byte3}"
