@@ -1,0 +1,296 @@
+09:07:02.485 INFO    demo       ============ 1. Connect: TCP + HSMS Select ============
+09:07:02.485 INFO    hsms       [host] TCP connected to 127.0.0.1:5000 -> CONNECTED/NOT SELECTED
+09:07:02.485 INFO    trace      [host] --> Select.req  (sys=0x00000001)
+09:07:02.486 INFO    trace      [host] <-- Select.rsp status=0  (sys=0x00000001)
+09:07:02.486 INFO    hsms       [host] HSMS state CONNECTED/NOT SELECTED -> CONNECTED/SELECTED
+09:07:02.486 INFO    demo       ============ 2. Establish communications (S1F13) ============
+09:07:02.486 INFO    trace      [host] --> S1F13 W  (sys=0x00000002)
+    <L [0]>
+09:07:02.487 INFO    trace      [host] <-- S1F14  (sys=0x00000002)
+    <L [2] <B 0x00> <L [2] <A "ETCH-SIM-200"> <A "0.1.0">>>
+09:07:02.487 INFO    demo       COMMACK = 0
+09:07:02.487 INFO    demo       ============ 3. Request ONLINE (S1F17), then Are You There (S1F1) ============
+09:07:02.487 INFO    trace      [host] --> S1F17 W  (sys=0x00000003)
+09:07:02.487 INFO    trace      [host] <-- S1F18  (sys=0x00000003)
+    <B 0x00>
+09:07:02.487 INFO    demo       ONLACK = 0
+09:07:02.487 INFO    trace      [host] --> S1F1 W  (sys=0x00000004)
+09:07:02.488 INFO    trace      [host] <-- S1F2  (sys=0x00000004)
+    <L [2] <A "ETCH-SIM-200"> <A "0.1.0">>
+09:07:02.488 INFO    demo       tool model ETCH-SIM-200, software 0.1.0
+09:07:02.488 INFO    demo       ============ 4. Read status variables (S1F11 names, S1F3 values) ============
+09:07:02.488 INFO    trace      [host] --> S1F11 W  (sys=0x00000005)
+    <L [0]>
+09:07:02.488 INFO    trace      [host] <-- S1F12  (sys=0x00000005)
+    <L [6]
+      <L [3] <U4 1001> <A "ChamberTemp"> <A "degC">>
+      <L [3] <U4 1002> <A "ChamberPressure"> <A "mTorr">>
+      <L [3] <U4 1003> <A "WaferCount"> <A "wafers">>
+      <L [3] <U4 1004> <A "ProcessState"> <A "">>
+      <L [3] <U4 1005> <A "ControlState"> <A "">>
+      <L [3] <U4 1006> <A "Clock"> <A "">>
+    >
+09:07:02.489 INFO    trace      [host] --> S1F3 W  (sys=0x00000006)
+    <L [6] <U4 1001> <U4 1002> <U4 1003> <U4 1004> <U4 1005> <U4 1006>>
+09:07:02.489 INFO    trace      [host] <-- S1F4  (sys=0x00000006)
+    <L [6]
+      <F4 24.67277>
+      <F4 5.154548>
+      <U4 0>
+      <A "IDLE">
+      <U1 5>
+      <A "2026102109070248">
+    >
+09:07:02.489 INFO    demo         SV 1001 ChamberTemp      = 24.7 degC
+09:07:02.489 INFO    demo         SV 1002 ChamberPressure  = 5.2 mTorr
+09:07:02.489 INFO    demo         SV 1003 WaferCount       = 0 wafers
+09:07:02.489 INFO    demo         SV 1004 ProcessState     = IDLE 
+09:07:02.489 INFO    demo         SV 1005 ControlState     = 5 
+09:07:02.489 INFO    demo         SV 1006 Clock            = 2026102109070248 
+09:07:02.489 INFO    demo       ============ 5. Equipment constants (S2F13 read, S2F15 write) ============
+09:07:02.489 INFO    trace      [host] --> S2F13 W  (sys=0x00000007)
+    <L [0]>
+09:07:02.490 INFO    trace      [host] <-- S2F14  (sys=0x00000007)
+    <L [4] <F4 60> <F4 50> <F4 80> <F4 1>>
+09:07:02.490 INFO    demo       EC values: [60.0, 50.0, 80.0, 1.0]
+09:07:02.490 INFO    trace      [host] --> S2F15 W  (sys=0x00000008)
+    <L [1] <L [2] <U4 2004> <F4 0.6>>>
+09:07:02.490 INFO    trace      [host] <-- S2F16  (sys=0x00000008)
+    <B 0x00>
+09:07:02.491 INFO    demo       EAC = 0
+09:07:02.491 INFO    demo       ============ 6. Configure data collection (S2F33 define, S2F35 link, S2F37 enable) ============
+09:07:02.491 INFO    trace      [host] --> S2F33 W  (sys=0x00000009)
+    <L [2]
+      <U4 1>
+      <L [2]
+        <L [2] <U4 100> <L [2] <U4 1004> <U4 4001>>>
+        <L [2] <U4 101> <L [4] <U4 4002> <U4 1003> <U4 1001> <U4 1002>>>
+      >
+    >
+09:07:02.491 INFO    trace      [host] <-- S2F34  (sys=0x00000009)
+    <B 0x00>
+09:07:02.491 INFO    demo       DRACK = 0
+09:07:02.491 INFO    trace      [host] --> S2F35 W  (sys=0x0000000A)
+    <L [2]
+      <U4 1>
+      <L [6]
+        <L [2] <U4 3001> <L [1] <U4 100>>>
+        <L [2] <U4 3003> <L [1] <U4 101>>>
+        <L [2] <U4 3002> <L [2] <U4 100> <U4 101>>>
+        <L [2] <U4 3004> <L [2] <U4 100> <U4 101>>>
+        <L [2] <U4 3005> <L [1] <U4 100>>>
+        <L [2] <U4 3006> <L [1] <U4 100>>>
+      >
+    >
+09:07:02.492 INFO    trace      [host] <-- S2F36  (sys=0x0000000A)
+    <B 0x00>
+09:07:02.492 INFO    demo       LRACK = 0
+09:07:02.492 INFO    trace      [host] --> S2F37 W  (sys=0x0000000B)
+    <L [2] <BOOLEAN TRUE> <L [0]>>
+09:07:02.492 INFO    trace      [host] <-- S2F38  (sys=0x0000000B)
+    <B 0x00>
+09:07:02.492 INFO    demo       ERACK = 0
+09:07:02.492 INFO    demo       ============ 7. Enable and list alarms (S5F3, S5F5) ============
+09:07:02.492 INFO    trace      [host] --> S5F3 W  (sys=0x0000000C)
+    <L [2] <B 0x80> <U4>>
+09:07:02.493 INFO    trace      [host] <-- S5F4  (sys=0x0000000C)
+    <B 0x00>
+09:07:02.493 INFO    demo       ACKC5 = 0
+09:07:02.493 INFO    trace      [host] --> S5F5 W  (sys=0x0000000D)
+    <U4>
+09:07:02.493 INFO    trace      [host] <-- S5F6  (sys=0x0000000D)
+    <L [2]
+      <L [3] <B 0x02> <U4 1> <A "Chamber temperature above OverTempLimit">>
+      <L [3] <B 0x03> <U4 2> <A "Chamber pressure above 250 mTorr">>
+    >
+09:07:02.493 INFO    demo         ALID 1 set=False: Chamber temperature above OverTempLimit
+09:07:02.493 INFO    demo         ALID 2 set=False: Chamber pressure above 250 mTorr
+09:07:02.493 INFO    demo       ============ 8. Rejection: RESUME while IDLE (expect HCACK 2) ============
+09:07:02.493 INFO    trace      [host] --> S2F41 W  (sys=0x0000000E)
+    <L [2] <A "RESUME"> <L [0]>>
+09:07:02.494 INFO    trace      [host] <-- S2F42  (sys=0x0000000E)
+    <L [2] <B 0x02> <L [0]>>
+09:07:02.494 INFO    demo       HCACK = 2 (CANNOT_PERFORM_NOW)
+09:07:02.494 INFO    demo       ============ 9. Run recipe ETCH_OXIDE_01 with a PAUSE/RESUME in the middle ============
+09:07:02.494 INFO    trace      [host] --> S2F41 W  (sys=0x0000000F)
+    <L [2] <A "START"> <L [1] <L [2] <A "PPID"> <A "ETCH_OXIDE_01">>>>
+09:07:02.494 INFO    trace      [host] <-- S2F42  (sys=0x0000000F)
+    <L [2] <B 0x04> <L [0]>>
+09:07:02.494 INFO    demo       HCACK = 4 (ACK_FINISH_LATER)
+09:07:02.796 INFO    trace      [host] <-- S6F11 W  (sys=0x00000001)
+    <L [3]
+      <U4 1>
+      <U4 3001>
+      <L [1] <L [2] <U4 100> <L [2] <A "EXECUTING"> <A "ETCH_OXIDE_01">>>>
+    >
+09:07:02.796 INFO    demo       EVENT  ProcessStarted (CEID 3001)  RPT 100: ProcessState=EXECUTING, PPID=ETCH_OXIDE_01
+09:07:02.796 INFO    trace      [host] --> S6F12  (sys=0x00000001)
+    <B 0x00>
+09:07:03.400 INFO    trace      [host] <-- S6F11 W  (sys=0x00000002)
+    <L [3]
+      <U4 2>
+      <U4 3003>
+      <L [1]
+        <L [2] <U4 101> <L [4] <U4 1> <U4 1> <F4 38.2154> <F4 36.11283>>>
+      >
+    >
+09:07:03.400 INFO    demo       EVENT  WaferCompleted (CEID 3003)  RPT 101: CurrentWafer=1, WaferCount=1, ChamberTemp=38.2, ChamberPressure=36.1
+09:07:03.400 INFO    trace      [host] --> S6F12  (sys=0x00000002)
+    <B 0x00>
+09:07:03.400 INFO    trace      [host] --> S2F41 W  (sys=0x00000010)
+    <L [2] <A "PAUSE"> <L [0]>>
+09:07:03.401 INFO    trace      [host] <-- S2F42  (sys=0x00000010)
+    <L [2] <B 0x00> <L [0]>>
+09:07:03.401 INFO    demo       PAUSE -> HCACK 0
+09:07:03.401 INFO    trace      [host] --> S1F3 W  (sys=0x00000011)
+    <L [1] <U4 1004>>
+09:07:03.401 INFO    trace      [host] <-- S6F11 W  (sys=0x00000003)
+    <L [3]
+      <U4 3>
+      <U4 3005>
+      <L [1] <L [2] <U4 100> <L [2] <A "PAUSED"> <A "ETCH_OXIDE_01">>>>
+    >
+09:07:03.401 INFO    demo       EVENT  ProcessPaused (CEID 3005)  RPT 100: ProcessState=PAUSED, PPID=ETCH_OXIDE_01
+09:07:03.401 INFO    trace      [host] --> S6F12  (sys=0x00000003)
+    <B 0x00>
+09:07:03.402 INFO    trace      [host] <-- S1F4  (sys=0x00000011)
+    <L [1] <A "PAUSED">>
+09:07:03.402 INFO    demo       ProcessState while paused: PAUSED
+09:07:03.903 INFO    trace      [host] --> S2F41 W  (sys=0x00000012)
+    <L [2] <A "RESUME"> <L [0]>>
+09:07:03.904 INFO    trace      [host] <-- S2F42  (sys=0x00000012)
+    <L [2] <B 0x00> <L [0]>>
+09:07:03.904 INFO    demo       RESUME -> HCACK 0
+09:07:03.904 INFO    trace      [host] <-- S6F11 W  (sys=0x00000004)
+    <L [3]
+      <U4 4>
+      <U4 3006>
+      <L [1] <L [2] <U4 100> <L [2] <A "EXECUTING"> <A "ETCH_OXIDE_01">>>>
+    >
+09:07:03.904 INFO    demo       EVENT  ProcessResumed (CEID 3006)  RPT 100: ProcessState=EXECUTING, PPID=ETCH_OXIDE_01
+09:07:03.904 INFO    trace      [host] --> S6F12  (sys=0x00000004)
+    <B 0x00>
+09:07:04.307 INFO    trace      [host] <-- S6F11 W  (sys=0x00000005)
+    <L [3]
+      <U4 5>
+      <U4 3003>
+      <L [1]
+        <L [2] <U4 101> <L [4] <U4 2> <U4 2> <F4 50.42546> <F4 48.19991>>>
+      >
+    >
+09:07:04.307 INFO    demo       EVENT  WaferCompleted (CEID 3003)  RPT 101: CurrentWafer=2, WaferCount=2, ChamberTemp=50.4, ChamberPressure=48.2
+09:07:04.307 INFO    trace      [host] --> S6F12  (sys=0x00000005)
+    <B 0x00>
+09:07:04.910 INFO    trace      [host] <-- S6F11 W  (sys=0x00000006)
+    <L [3]
+      <U4 6>
+      <U4 3003>
+      <L [1]
+        <L [2] <U4 101> <L [4] <U4 3> <U4 3> <F4 54.50357> <F4 49.55373>>>
+      >
+    >
+09:07:04.910 INFO    demo       EVENT  WaferCompleted (CEID 3003)  RPT 101: CurrentWafer=3, WaferCount=3, ChamberTemp=54.5, ChamberPressure=49.6
+09:07:04.910 INFO    trace      [host] --> S6F12  (sys=0x00000006)
+    <B 0x00>
+09:07:04.911 INFO    trace      [host] <-- S6F11 W  (sys=0x00000007)
+    <L [3]
+      <U4 7>
+      <U4 3002>
+      <L [2]
+        <L [2] <U4 100> <L [2] <A "IDLE"> <A "ETCH_OXIDE_01">>>
+        <L [2] <U4 101> <L [4] <U4 3> <U4 3> <F4 54.50357> <F4 49.55373>>>
+      >
+    >
+09:07:04.911 INFO    demo       EVENT  ProcessCompleted (CEID 3002)  RPT 100: ProcessState=IDLE, PPID=ETCH_OXIDE_01 | RPT 101: CurrentWafer=3, WaferCount=3, ChamberTemp=54.5, ChamberPressure=49.6
+09:07:04.911 INFO    trace      [host] --> S6F12  (sys=0x00000007)
+    <B 0x00>
+09:07:04.911 INFO    demo       ============ 10. Over-temperature: bad setpoint, alarm, host ABORTs ============
+09:07:04.911 INFO    trace      [host] --> S2F15 W  (sys=0x00000013)
+    <L [1] <L [2] <U4 2001> <F4 95>>>
+09:07:04.912 INFO    trace      [host] <-- S2F16  (sys=0x00000013)
+    <B 0x00>
+09:07:04.912 INFO    trace      [host] --> S2F41 W  (sys=0x00000014)
+    <L [2] <A "START"> <L [1] <L [2] <A "PPID"> <A "ETCH_POLY_02">>>>
+09:07:04.913 INFO    trace      [host] <-- S2F42  (sys=0x00000014)
+    <L [2] <B 0x04> <L [0]>>
+09:07:05.215 INFO    trace      [host] <-- S6F11 W  (sys=0x00000008)
+    <L [3]
+      <U4 8>
+      <U4 3001>
+      <L [1] <L [2] <U4 100> <L [2] <A "EXECUTING"> <A "ETCH_POLY_02">>>>
+    >
+09:07:05.215 INFO    demo       EVENT  ProcessStarted (CEID 3001)  RPT 100: ProcessState=EXECUTING, PPID=ETCH_POLY_02
+09:07:05.215 INFO    trace      [host] --> S6F12  (sys=0x00000008)
+    <B 0x00>
+09:07:05.817 INFO    trace      [host] <-- S6F11 W  (sys=0x00000009)
+    <L [3]
+      <U4 9>
+      <U4 3003>
+      <L [1]
+        <L [2] <U4 101> <L [4] <U4 1> <U4 4> <F4 67.98984> <F4 44.96368>>>
+      >
+    >
+09:07:05.817 INFO    demo       EVENT  WaferCompleted (CEID 3003)  RPT 101: CurrentWafer=1, WaferCount=4, ChamberTemp=68.0, ChamberPressure=45.0
+09:07:05.817 INFO    trace      [host] --> S6F12  (sys=0x00000009)
+    <B 0x00>
+09:07:06.420 INFO    trace      [host] <-- S6F11 W  (sys=0x0000000A)
+    <L [3]
+      <U4 10>
+      <U4 3003>
+      <L [1]
+        <L [2] <U4 101> <L [4] <U4 2> <U4 5> <F4 78.57616> <F4 48.01049>>>
+      >
+    >
+09:07:06.420 INFO    demo       EVENT  WaferCompleted (CEID 3003)  RPT 101: CurrentWafer=2, WaferCount=5, ChamberTemp=78.6, ChamberPressure=48.0
+09:07:06.420 INFO    trace      [host] --> S6F12  (sys=0x0000000A)
+    <B 0x00>
+09:07:06.500 INFO    trace      [host] <-- S5F1 W  (sys=0x0000000B)
+    <L [3] <B 0x82> <U4 1> <A "Chamber temperature above OverTempLimit">>
+09:07:06.500 WARNING demo       ALARM  ALID 1 SET: Chamber temperature above OverTempLimit
+09:07:06.500 INFO    trace      [host] --> S5F2  (sys=0x0000000B)
+    <B 0x00>
+09:07:06.500 INFO    demo       host policy: over-temp alarm -> ABORT
+09:07:06.500 INFO    trace      [host] --> S2F41 W  (sys=0x00000015)
+    <L [2] <A "ABORT"> <L [0]>>
+09:07:06.501 INFO    trace      [host] <-- S2F42  (sys=0x00000015)
+    <L [2] <B 0x00> <L [0]>>
+09:07:06.501 INFO    demo       HCACK = 0 (OK)
+09:07:06.501 INFO    trace      [host] <-- S6F11 W  (sys=0x0000000C)
+    <L [3]
+      <U4 11>
+      <U4 3004>
+      <L [2]
+        <L [2] <U4 100> <L [2] <A "IDLE"> <A "ETCH_POLY_02">>>
+        <L [2] <U4 101> <L [4] <U4 3> <U4 5> <F4 80.93714> <F4 48.20033>>>
+      >
+    >
+09:07:06.501 INFO    demo       EVENT  ProcessAborted (CEID 3004)  RPT 100: ProcessState=IDLE, PPID=ETCH_POLY_02 | RPT 101: CurrentWafer=3, WaferCount=5, ChamberTemp=80.9, ChamberPressure=48.2
+09:07:06.501 INFO    trace      [host] --> S6F12  (sys=0x0000000C)
+    <B 0x00>
+09:07:06.701 INFO    trace      [host] <-- S5F1 W  (sys=0x0000000D)
+    <L [3] <B 0x02> <U4 1> <A "Chamber temperature above OverTempLimit">>
+09:07:06.701 WARNING demo       ALARM  ALID 1 CLEARED: Chamber temperature above OverTempLimit
+09:07:06.701 INFO    trace      [host] --> S5F2  (sys=0x0000000D)
+    <B 0x00>
+09:07:06.702 INFO    trace      [host] --> S2F15 W  (sys=0x00000016)
+    <L [1] <L [2] <U4 2001> <F4 60>>>
+09:07:06.702 INFO    trace      [host] <-- S2F16  (sys=0x00000016)
+    <B 0x00>
+09:07:06.703 INFO    demo       ============ 11. Unknown message S1F99 -> equipment answers S9F5 ============
+09:07:06.703 INFO    trace      [host] --> S1F99 W  (sys=0x00000017)
+09:07:06.703 INFO    trace      [host] <-- S9F5  (sys=0x0000000E)
+    <B 0x00 0x00 0x81 0x63 0x00 0x00 0x00 0x00 0x00 0x17>
+09:07:06.703 WARNING host       equipment reported S9F5 (Unrecognized Function Type)
+09:07:06.703 INFO    demo       got S9F5: Unrecognized Function Type
+09:07:06.703 INFO    demo       ============ 12. Linktest, go OFFLINE (S1F15), Separate ============
+09:07:06.703 INFO    trace      [host] --> Linktest.req  (sys=0x00000018)
+09:07:06.704 INFO    trace      [host] <-- Linktest.rsp  (sys=0x00000018)
+09:07:06.704 INFO    demo       linktest round trip 0.6 ms
+09:07:06.704 INFO    trace      [host] --> S1F15 W  (sys=0x00000019)
+09:07:06.705 INFO    trace      [host] <-- S1F16  (sys=0x00000019)
+    <B 0x00>
+09:07:06.705 INFO    demo       OFLACK = 0
+09:07:06.705 INFO    trace      [host] --> Separate.req  (sys=0x0000001A)
+09:07:06.705 INFO    hsms       [host] closing connection: sent Separate.req
+09:07:06.705 INFO    hsms       [host] HSMS state CONNECTED/SELECTED -> NOT CONNECTED
+09:07:06.705 INFO    demo       done: 39 HSMS messages sent, 38 received, 11 event reports, 2 alarm reports
